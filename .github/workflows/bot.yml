@@ -1,27 +1,40 @@
-name: Facebook Auto Reply Bot
+name: 🤖 Facebook Auto Reply Bot
 
+# কখন রান হবে
 on:
   schedule:
-    - cron: '*/5 * * * *'  # প্রতি ৫ মিনিটে রান
-  workflow_dispatch:  # ম্যানুয়ালি ট্রিগার
+    # প্রতি ৫ মিনিটে রান হবে
+    - cron: '*/5 * * * *'
+  workflow_dispatch:  # GitHub UI থেকে ম্যানুয়ালি রান করার জন্য
 
+# কাজের বিবরণ
 jobs:
-  bot:
+  facebook-bot:
+    name: '🤖 Run Auto Reply Bot'
     runs-on: ubuntu-latest
+    
     steps:
-      - uses: actions/checkout@v3
+      # ১. GitHub থেকে কোড ক্লোন করা
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
       
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      # ২. Node.js সেটআপ করা
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
-          
-      - name: Install Dependencies
-        run: npm install facebook-chat-api
-        
-      - name: Create AppState
+          cache: 'npm'
+      
+      # ৩. npm প্যাকেজ ইনস্টল করা
+      - name: 📦 Install Dependencies
+        run: npm install
+      
+      # ৪. AppState ফাইল তৈরি করা (GitHub Secret থেকে)
+      - name: 🔐 Create AppState File
         run: |
           echo '${{ secrets.APPSTATE }}' > appstate.json
-          
-      - name: Run Bot
+      
+      # ৫. বট রান করা
+      - name: 🚀 Run Auto Reply Bot
         run: node bot.js
+        timeout-minutes: 4
