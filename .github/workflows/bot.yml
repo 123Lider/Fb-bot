@@ -1,0 +1,27 @@
+name: Facebook Auto Reply Bot
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # প্রতি ৫ মিনিটে রান
+  workflow_dispatch:  # ম্যানুয়ালি ট্রিগার
+
+jobs:
+  bot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Install Dependencies
+        run: npm install facebook-chat-api
+        
+      - name: Create AppState
+        run: |
+          echo '${{ secrets.APPSTATE }}' > appstate.json
+          
+      - name: Run Bot
+        run: node bot.js
