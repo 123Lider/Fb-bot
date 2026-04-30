@@ -1,0 +1,7 @@
+{
+  "name": "facebook-auto-reply",
+  "version": "1.0.0",
+  "dependencies": {
+    "facebook-chat-api": "^1.8.0"
+  }
+}
