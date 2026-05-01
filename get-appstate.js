@@ -1,3 +1,4 @@
+cat > get-appstate.js << 'EOF'
 const login = require("facebook-chat-api");
 const fs = require("fs");
 const readline = require("readline");
@@ -26,3 +27,4 @@ rl.question("thekingoflaxmipur@gmail.com: ", (email) => {
     });
   });
 });
+EOF
